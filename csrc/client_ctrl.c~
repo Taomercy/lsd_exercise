@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <errno.h>
+#include <signal.h>
+#include <time.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+#include <sys/msg.h>
+#include <sys/shm.h>
+#include <sys/sem.h>
+#include <sys/ipc.h>
+#include <pthread.h>
+#include <semaphore.h>
+#include <arpa/inet.h>
+#include <sys/socket.h>
+#include "mychat_model.h"
+#include "mychat_view.h"
+
+void client_ctrl_1(int clientfd)//客户端 主线程1级控制层
+{
+	while(1)
+	{
+		sleep(1);
+		system("clear");
+		client_view_1();
+		int choose = 0;
+		printf("请输入您的选择：");
+		scanf("%d",&choose);
+		switch(choose)
+		{
+			case REG:
+				printf("到达客户端注册函数处\n");
+				printf("等待消息，阻塞中...\n");
+				while(1);
+				break;
+			case LOG:
+				break;
+			case EXIT:
+				break;
+			default:
+				printf("输入错误！\n");
+				break;
+		}
+	}
+}

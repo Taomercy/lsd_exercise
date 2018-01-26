@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <errno.h>
+#include <signal.h>
+#include <time.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+#include <sys/msg.h>
+#include <sys/shm.h>
+#include <sys/sem.h>
+#include <sys/ipc.h>
+#include <pthread.h>
+#include <semaphore.h>
+#include <arpa/inet.h>
+#include <sys/socket.h>
+#include "mychat_model.h"
+
+void server_ctrl_1(int clientfd)//服务器 客户端处理线程1级控制层
+{
+	while(1)
+	{
+		sleep(1);
+		Cmsg core_message = {};
+		int read_err = read(clientfd,&core_message,sizeof(Cmsg));
+		if(read_err == 0)
+		{
+			fprintf(stderr,"ID:%d\t断开链接！\n",clientfd);
+			break;
+		}
+		else if(read_err < 0)
+		{
+			fprintf(stderr,"套接字错误！\n");
+			break;
+		}
+		switch(core_message.type)
+		{
+			case REG:
+				printf("到达登录函数处！\n");
+				break;
+			case LOG:
+				break;
+			case EXIT:
+				break;
+			default:
+				printf("输入错误！\n");
+				break;
+		}
+	}
+}

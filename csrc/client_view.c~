@@ -1,0 +1,18 @@
+#include <stdio.h>
+
+void client_view_1(void)//客户端 主线程 1级菜单
+{
+	printf("----------MyChat--------\n");
+	printf("1.用户注册\n");
+	printf("2.用户登录\n");
+	printf("0.退出系统\n");
+}
+
+void client_view_2(void)//客户端 主线程 2级菜单
+{
+	printf("----------MyChat--------\n");
+	printf("1.shell命令\n");
+	printf("2.\n");
+	printf("3.\n");
+	printf("0.返回上一级菜单\n");
+}

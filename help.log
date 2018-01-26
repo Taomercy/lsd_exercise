@@ -1,0 +1,2 @@
+cmd_runserver:'./bin/server hosts.txt'
+cmd_runclient:'./bin/client hosts.txt'

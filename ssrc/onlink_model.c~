@@ -1,0 +1,112 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include "mychat_model.h"
+
+Onlink* on_create_node(Online data)//创建用户链表节点
+{
+	Onlink* newnode = calloc(1,sizeof(Onlink));//申请空间
+	newnode -> data = data;
+	return newnode;
+}
+
+
+void onlink_insert_after(Onlink* head, Online data)//插入用户链表节点
+{
+	if(NULL == head)
+	{
+		fprintf(stderr,"头节点为空\n");
+		return;
+	}
+	while(head -> next != NULL)
+	{
+		head = head -> next;
+	}
+
+	
+	Onlink* newnode = on_create_node(data);//创建新节点
+	//最后一个节点的指针域指向新节点
+	head -> next = newnode;
+}
+
+Onlink* onlink_select_node(Onlink* onlink, char name[])//用户链表姓名查询当前节点
+{
+	if(onlink == NULL)
+	{
+		printf("用户链表头节点为空！\n");
+		return NULL;
+	}
+	onlink = onlink->next;
+	while(onlink != NULL)
+	{
+		if(0 == strcmp(onlink->data.name,name))
+		{
+			return onlink;
+		}
+		onlink = onlink->next;
+	}
+	return NULL;
+}
+
+Onlink* onlink_select_front_node(Onlink* head,char* name)//查询用户链表前一节点
+{
+	if(NULL == head)
+	{
+		fprintf(stderr,"头节点为空\n");
+		return NULL;
+	}
+
+	//返回前一个节点
+	Onlink* pre = head ;
+	head = head -> next;
+	while(head != NULL)
+	{
+		if(strcmp(head -> data.name,name) == 0)
+		{
+			return pre;
+		}
+		printf("in the onlink select\n");
+		pre = head;
+		head = head -> next;
+	}
+	return NULL;
+}
+
+void onlink_delete_node(Onlink* head,char* name)//删除用户链表节点
+{
+	if(NULL == head)
+	{
+		fprintf(stderr,"头节点为空\n");
+		return ;
+	}
+	
+	Onlink* pre = onlink_select_node(head,name);
+	if(pre == NULL)
+	{
+		printf("没有此节点\n");
+		return ;
+	}
+	Onlink* del = pre -> next;
+	pre -> next = del -> next;
+	free(del);
+	del = NULL;
+}
+
+void onlink_free(Onlink* head)//释放用户链表
+{	
+	if(NULL == head)
+	{
+		fprintf(stderr,"头节点为空\n");
+		return ;
+	}
+
+	while(head != NULL)
+	{
+		Onlink* save = head -> next;
+		free(head);
+		head = save;		
+	}
+}
+
+
